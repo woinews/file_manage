@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Feb  9 10:55:42 2018
+
+@author: chenzx
+"""
+
+import pandas as pd  
+import os  
+import chardet
+Folder_Path = 'C:\\Users\chenzx\Desktop\ZY'
+os.chdir(Folder_Path)
+file_list = os.listdir()
+
+df=pd.DataFrame(columns = ['productname','maf'])
+       
+#def removeBom(file):         
+#    '''移除UTF-8文件的BOM字节'''
+#    BOM = b'\xef\xbb\xbf'
+#    existBom = lambda s: True if s==BOM else False     
+#    f = open(file, 'rb')
+#    if existBom( f.read(3) ):
+#        fbody = f.read()
+#          #f.close()
+#        with open(file, 'wb') as f:
+#            f.write(fbody)
+#            f.close
+
+for csv in file_list:    #查看文件编码方式
+    f = open(csv,'rb')
+    data = f.read()
+    print(chardet.detect(data))
+
+for csv in file_list:
+#    removeBom(csv)
+    csv_data = pd.read_csv(csv)
+#    df = pd.merge(df,pd.read_csv(csv,encoding='utf8'),how='outer')
+    df = df.append(csv_data, ignore_index=True)
