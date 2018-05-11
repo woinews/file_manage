@@ -1,0 +1,15 @@
+import pandas as pd
+import os 
+Folder_Path = r'E:\4月份'  
+os.chdir(Folder_Path) #定位到需要合并文件的文件夹
+file_list = os.listdir() #读取文件名并生成列表
+df=pd.DataFrame() #创建一个空的dataframe
+
+for file in file_list:
+    file_data = pd.read_excel(file,header = 1)  #header用于设置读取开始位置并设置为columns name，这里从第二行开始读取   
+    df = df.append(file_data, ignore_index=True) #新增到空dataframe中
+
+df = df[df["发货单号"].fillna(0) != 0]  #去除空值，这里是先把空值填充0再去除0的部分
+
+df.to_excel("ss.xlsx",index = False)
+
