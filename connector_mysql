@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jun 11 21:10:25 2018
+
+@author: woinews
+
+使用pip来安装mysql-connector模块：
+pip install mysql-connector
+
+"""
+
+import mysql.connector  # 导入库
+import time
+
+try:
+    config = {'host': '127.0.0.1',  # 默认127.0.0.1
+              'user': 'root',  # 用户名
+              'password': 'woinews',  # 密码
+              'port': 3306,  # 端口，默认为3306
+              'database': 'python_data',  # 数据库名称
+              'charset': 'gb2312'  # 字符编码
+              }
+    
+    cnn = mysql.connector.connect(**config)  # 建立mysql连接
+    
+    cursor = cnn.cursor()  # 获得游标
+    sql_1 = "SELECT * FROM `order`"  # SQL语句
+    cursor.execute(sql_1)  # 执行sql语句
+#    insert1="insert into `order`(order_id) values('38978945111')"  #插入操作，注意`order`中的`号不能遗漏
+#    cursor.execute(insert1)
+    data = cursor.fetchall()  # 通过fetchall方法获得全部数据
+    for i in data[:2]:  # 打印输出前2条数据
+        print (i)
+    cursor.close()  # 关闭游标
+    cnn.close()  # 关闭连接
+
+except mysql.connector.Error as e:
+    print('连接失败{}'.format(e))
