@@ -1,0 +1,29 @@
+#本人的服务器是阿里云centos7，在上面已配置好MongoDB服务，使用远程连接，将json数据上传至mongodb中
+from pymongo import MongoClient    
+
+client = MongoClient("mongodb://woinews1:123456@47.106.xx.xxx:27017/test_db")   
+#格式：mongodb://数据库用户账号：用户密码@公网IP：端口/数据库名
+
+db = client["test_db"]  #实例化，可使用实例的属性访问数据库
+news = db.news  #指定集合
+
+import json
+with open('news_data.json','r',encoding = 'utf-8') as f:   #该json文件申请自聚合数据，本目录下也有保存一份
+  news_data = json.load(f)
+
+news_data = news_data['result']['data']
+
+result = news.insert_many(news_data)   #向集合中插入数据文档，至此上传数据结束
+
+#查看集合中的数据
+for new in news.find():
+  print(new)
+#.find()返回一个Cursor实例，它允许遍历所有匹配的文档
+
+for new in news.find(({"author_name": "凤凰网"})):
+    print(new)
+#将文档传递给find()可用于限制返回的结果
+
+
+
+
