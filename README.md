@@ -9,4 +9,15 @@
   pd.read_csv(filepath,encoding = 'ansi',dtype = str)   
 
 ## 2、join_xls.py
-  用pandas合并excel文件
+  用pandas合并excel文件  
+  
+## 3、connector_mysql.py
+  使用mysql-connector库连接本地mysql数据库进行数据处理  
+  
+## 4、connect_mongodb.py
+  使用远程连接，将json数据上传至mongodb中
+
+
+
+
+
