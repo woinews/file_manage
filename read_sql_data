@@ -1,0 +1,22 @@
+import pandas as pd
+from sqlalchemy import create_engine
+
+# 读取采购明细
+engine = create_engine("mysql+mysqldb://{}:{}@{}/{}?charset=utf8".format(
+                        'xxxx', 'xxxx', '10.8.30.xxx', 'name'))
+
+
+df1 = pd.read_csv(open(r'C:\Users\chenrx\Desktop\purchase.csv'))
+
+pno_list = str(tuple(df1['pno'].tolist()))[1:-1]
+
+sql_cmd_sup = '''
+                    SELECT
+                    `pno`,`maf`,`sales(USD)`
+                    FROM
+                    `purchase`
+                    where
+                    `pno` in (%s)
+                ''' %pno_list
+                
+platf_sup = pd.read_sql(sql=sql_cmd_sup, con=engine)  
